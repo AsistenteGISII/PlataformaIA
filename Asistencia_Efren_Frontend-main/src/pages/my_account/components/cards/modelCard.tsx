@@ -1,0 +1,111 @@
+import { Box, Card, CardContent, Typography, Tooltip, IconButton } from '@mui/material';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import AverageCalification from "../../../model_information/components/AverageCalification";
+import { useNavigate } from 'react-router-dom';
+
+type ModelCardProps = {
+    id: number,
+    modelName: string,
+    precision: number,
+    score: number,
+    small_description: string,
+    status: string,
+    privated: boolean,
+}
+
+export const ModelCard = ({ id, modelName, precision, score, small_description, status, privated }: ModelCardProps) => {
+    const navigate = useNavigate();
+
+    function verModelo() {
+        navigate(`../models/${id}`);
+    }
+
+    function editarModelo(event: React.MouseEvent) {
+        event.stopPropagation();
+        navigate(`/models/update/${id}`);
+    }
+
+    return (
+        <Box 
+            onClick={() => verModelo()} 
+            sx={{
+                display: 'flex',
+                flexDirection: 'column', 
+                justifyContent: 'space-between',
+                width: '20rem',
+                height: '20rem',
+                borderRadius: '8px',
+                padding: '1rem',
+                cursor: 'pointer',
+                transition: 'transform 0.3s ease, box-shadow 0.3s ease', 
+                '&:hover': {
+                    transform: 'scale(1.05)', 
+                    boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.15)', 
+                },
+            }}
+        >
+            <Box sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+            }}>
+                <Typography variant="h5" component="div">
+                    {modelName}
+                </Typography>
+                <Tooltip title="Editar modelo">
+                    <IconButton onClick={editarModelo} sx={{ color: '#6b7280' }}>
+                        <BorderColorIcon />
+                    </IconButton>
+                </Tooltip>
+            </Box>
+            <Card sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: '100%',
+                height: '100%',
+                cursor: 'pointer',
+                border: 'none', 
+                boxShadow: 'none', 
+            }}>
+                <CardContent sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    position: 'relative',
+                }}>
+                    <Typography variant="subtitle2" color="text.secondary">
+                        {small_description}
+                    </Typography>
+                    <Typography variant="subtitle2" color="text.secondary">
+                        <span>Estado: </span>
+                        <span
+                            style={{
+                                color:
+                                    status === 'Accepted'
+                                        ? 'inherit' 
+                                        : status === 'Rejected'
+                                        ? '#D52E10' 
+                                        : '#d58910',
+                            }}
+                        >
+                            {status === 'Pending' ? 'Pendiente' : status === 'Accepted' ? 'Aceptado' : 'Denegado'}
+                        </span>
+                    </Typography>
+                    <Typography variant="subtitle2" color="text.secondary">
+                        Precisión: {precision === -1 ? 'N/A' : precision}
+                    </Typography>
+                    <Typography variant="subtitle2" color="text.secondary">
+                        Condición: {privated ? 'Privado' : 'Público'}
+                    </Typography>
+                    <Box marginTop={"20px"} textAlign={"center"}>
+                        <Typography variant="body2" component="p" marginBottom={"5px"}>
+                            Calificación
+                        </Typography>
+                        <AverageCalification grade={score.toString()} />
+                    </Box>
+                </CardContent>
+            </Card>
+        </Box>
+    );
+}
+

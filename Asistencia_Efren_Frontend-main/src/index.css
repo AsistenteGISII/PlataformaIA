@@ -1,0 +1,32 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.container_trending {
+    display: center;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    margin: auto;
+    max-width: 70%;
+    background-color: #f5f5f5;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-slider {
+    width: 100%;
+    /* O el ancho que desees */
+    max-width: 300px;
+    /* Limita el tamaño máximo de la tarjeta */
+    margin: 0 auto;
+    /* Centra la tarjeta horizontalmente en el espacio del slider */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 768px) {
+    .container_trending {
+        width: 100%;
+        padding: 10px 0;
+    }
+}
